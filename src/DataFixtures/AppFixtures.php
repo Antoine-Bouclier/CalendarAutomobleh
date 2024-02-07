@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Booking;
 use App\Entity\Color;
 use App\Entity\Employee;
+use DateTime;
 use DateTimeImmutable;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -14,6 +15,11 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        // Date du jour
+        $today = date('Y-m-d G:i:s');
+
+        // $tomorrow = date("Y-m-d 10:00:00", strtotime("+1 day"));
+
         // Création des couleurs
         $colors = $this->getColor();
         foreach ($colors as $color)
@@ -22,7 +28,7 @@ class AppFixtures extends Fixture
             $colorobject = new Color();
             $colorobject->setEnglishName($color['englishName']);
             $colorobject->setFrenchName($color['frenchName']);
-            $colorobject->setCreatedAt(new DateTimeImmutable($color['created_at']));
+            $colorobject->setCreatedAt(new DateTimeImmutable($today));
             $manager->persist($colorobject);
         }
 
@@ -35,7 +41,7 @@ class AppFixtures extends Fixture
             // Création de l'objet Employee
             $employeeObject = new Employee();
             $employeeObject->setName($employee['name']);
-            $employeeObject->setCreatedAt(new DateTimeImmutable($employee['created_at']));
+            $employeeObject->setCreatedAt(new DateTimeImmutable($today));
             
             // Association avec Color
             $colorRepository = $manager->getRepository(Color::class);
@@ -52,6 +58,23 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
+
+        // Création des bookings
+        $bookings = $this->getBooking();
+        foreach ($bookings as $booking)
+        {
+            // Création de l'objet Booking
+            $bookingObject = new Booking();
+            $bookingObject->setTitle($booking['title']);
+            $bookingObject->setBeginAt(new DateTime($booking['begin_at']));
+            $bookingObject->setEndAt(new DateTime($booking['end_at']));
+            $bookingObject->setCreatedAt(new DateTimeImmutable($today));
+
+            $manager->persist($bookingObject);
+        }
+
+        $manager->flush();
+
     }
 
     // Tableau des couleurs
@@ -60,42 +83,34 @@ class AppFixtures extends Fixture
             [
                 'englishName' => 'red',
                 'frenchName' => 'rouge',
-                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'blue',
                 'frenchName' => 'bleu',
-                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'green',
                 'frenchName' => 'vert',
-                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'purple',
                 'frenchName' => 'violet',
-                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'yellow',
                 'frenchName' => 'jaune',
-                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'orange',
                 'frenchName' => 'orange',
-                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'grey',
                 'frenchName' => 'gris',
-                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'pink',
                 'frenchName' => 'rose',
-                'created_at' => '2023-02-07',
             ],
         ];
     }
@@ -106,32 +121,83 @@ class AppFixtures extends Fixture
             [
                 'name' => 'Romain',
                 'colorName' => 'purple',
-                'created_at' => '2023-02-07',
             ],
             [
                 'name' => 'Laurent',
                 'colorName' => 'blue',
-                'created_at' => '2023-02-07',
             ],
             [
                 'name' => 'Thierry',
                 'colorName' => 'green',
-                'created_at' => '2023-02-07',
             ],
             [
                 'name' => 'Lucas',
                 'colorName' => 'yellow',
-                'created_at' => '2023-02-07',
             ],
             [
                 'name' => 'Antoine',
                 'colorName' => 'orange',
-                'created_at' => '2023-02-07',
             ],
             [
                 'name' => 'Default',
                 'colorName' => 'red',
-                'created_at' => '2023-02-07',
+            ],
+        ];
+    }
+
+    // Création des bookings
+    public function getBooking()
+    {
+        return [
+            [
+                'begin_at' => date("Y-m-d 10:00:00", strtotime("+1 day")),
+                'end_at' => date("Y-m-d 11:00:00", strtotime("+1 day")),
+                'title' => 'Vidange',
+            ],
+            [
+                'begin_at' => date("Y-m-d 14:00:00", strtotime("+1 day")),
+                'end_at' => date("Y-m-d 16:00:00", strtotime("+1 day")),
+                'title' => 'Revision',
+            ],
+            [
+                'begin_at' => date("Y-m-d 08:00:00", strtotime("-1 day")),
+                'end_at' => date("Y-m-d 10:00:00", strtotime("-1 day")),
+                'title' => 'Vidange',
+            ],
+            [
+                'begin_at' => date("Y-m-d 10:00:00", strtotime("-1 day")),
+                'end_at' => date("Y-m-d 11:00:00", strtotime("-1 day")),
+                'title' => 'Changement pièce',
+            ],
+            [
+                'begin_at' => date("Y-m-d 09:00:00", strtotime("-2 day")),
+                'end_at' => date("Y-m-d 11:00:00", strtotime("-2 day")),
+                'title' => 'Changement pneu',
+            ],
+            [
+                'begin_at' => date("Y-m-d 10:00:00"),
+                'end_at' => date("Y-m-d 12:00:00"),
+                'title' => 'Changement pneu',
+            ],
+            [
+                'begin_at' => date("Y-m-d 14:00:00"),
+                'end_at' => date("Y-m-d 16:00:00"),
+                'title' => 'Entretien',
+            ],
+            [
+                'begin_at' => date("Y-m-d 08:00:00"),
+                'end_at' => date("Y-m-d 11:00:00"),
+                'title' => 'Changement pneu',
+            ],
+            [
+                'begin_at' => date("Y-m-d 10:00:00", strtotime("+2 day")),
+                'end_at' => date("Y-m-d 12:00:00", strtotime("+2 day")),
+                'title' => 'Changement pièce',
+            ],
+            [
+                'begin_at' => date("Y-m-d 09:00:00", strtotime("+2 day")),
+                'end_at' => date("Y-m-d 11:00:00", strtotime("+2 day")),
+                'title' => 'Changement plaquette de frein',
             ],
         ];
     }

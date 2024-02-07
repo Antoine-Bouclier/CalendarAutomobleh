@@ -28,7 +28,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    // table des couleurs
+    // Tableau des couleurs
     public function getColor() {
         return [
             [
@@ -62,6 +62,32 @@ class AppFixtures extends Fixture
             [
                 'englishName' => 'pink',
                 'frenchName' => 'rose',
+            ],
+        ];
+    }
+
+    // Tableau des couleurs
+    public function getEmployee() {
+        return [
+            [
+                'name' => 'Romain',
+                'colorId' => '1',
+            ],
+            [
+                'name' => 'Laurent',
+                'colorId' => '2',
+            ],
+            [
+                'name' => 'Thierry',
+                'colorId' => '3',
+            ],
+            [
+                'name' => 'Lucas',
+                'colorId' => '4',
+            ],
+            [
+                'name' => 'Antoine',
+                'colorId' => '5',
             ],
         ];
     }

@@ -26,9 +26,33 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
+
+        // Création des employés
+        $employees = $this->getEmployee();
+        foreach ($employees as $employee)
+        {
+            // Création de l'objet Employee
+            $employeeObject = new Employee();
+            $employeeObject->setName($employee['name']);
+            
+            // Association avec Color
+            $colorRepository = $manager->getRepository(Color::class);
+            $colorList = $colorRepository->findAll();
+            foreach ($colorList as $color)
+            {
+                $colorName = $color->getEnglishName();
+                if ($colorName === $employee['colorName'])
+                {
+                    $employeeObject->setColor($color);
+                }
+            }
+            $manager->persist($employeeObject);
+        }
+
+        $manager->flush();
     }
 
-    // table des couleurs
+    // Tableau des couleurs
     public function getColor() {
         return [
             [
@@ -62,6 +86,36 @@ class AppFixtures extends Fixture
             [
                 'englishName' => 'pink',
                 'frenchName' => 'rose',
+            ],
+        ];
+    }
+
+    // Tableau des employés
+    public function getEmployee() {
+        return [
+            [
+                'name' => 'Romain',
+                'colorName' => 'purple',
+            ],
+            [
+                'name' => 'Laurent',
+                'colorName' => 'blue',
+            ],
+            [
+                'name' => 'Thierry',
+                'colorName' => 'green',
+            ],
+            [
+                'name' => 'Lucas',
+                'colorName' => 'yellow',
+            ],
+            [
+                'name' => 'Antoine',
+                'colorName' => 'orange',
+            ],
+            [
+                'name' => 'Default',
+                'colorName' => 'red',
             ],
         ];
     }

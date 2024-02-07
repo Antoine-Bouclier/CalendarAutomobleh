@@ -22,6 +22,7 @@ class AppFixtures extends Fixture
             $colorobject = new Color();
             $colorobject->setEnglishName($color['englishName']);
             $colorobject->setFrenchName($color['frenchName']);
+            $colorobject->setCreatedAt(new DateTimeImmutable($color['created_at']));
             $manager->persist($colorobject);
         }
 
@@ -34,6 +35,7 @@ class AppFixtures extends Fixture
             // Création de l'objet Employee
             $employeeObject = new Employee();
             $employeeObject->setName($employee['name']);
+            $employeeObject->setCreatedAt(new DateTimeImmutable($employee['created_at']));
             
             // Association avec Color
             $colorRepository = $manager->getRepository(Color::class);
@@ -58,34 +60,42 @@ class AppFixtures extends Fixture
             [
                 'englishName' => 'red',
                 'frenchName' => 'rouge',
+                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'blue',
                 'frenchName' => 'bleu',
+                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'green',
                 'frenchName' => 'vert',
+                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'purple',
                 'frenchName' => 'violet',
+                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'yellow',
                 'frenchName' => 'jaune',
+                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'orange',
                 'frenchName' => 'orange',
+                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'grey',
                 'frenchName' => 'gris',
+                'created_at' => '2023-02-07',
             ],
             [
                 'englishName' => 'pink',
                 'frenchName' => 'rose',
+                'created_at' => '2023-02-07',
             ],
         ];
     }
@@ -96,26 +106,32 @@ class AppFixtures extends Fixture
             [
                 'name' => 'Romain',
                 'colorName' => 'purple',
+                'created_at' => '2023-02-07',
             ],
             [
                 'name' => 'Laurent',
                 'colorName' => 'blue',
+                'created_at' => '2023-02-07',
             ],
             [
                 'name' => 'Thierry',
                 'colorName' => 'green',
+                'created_at' => '2023-02-07',
             ],
             [
                 'name' => 'Lucas',
                 'colorName' => 'yellow',
+                'created_at' => '2023-02-07',
             ],
             [
                 'name' => 'Antoine',
                 'colorName' => 'orange',
+                'created_at' => '2023-02-07',
             ],
             [
                 'name' => 'Default',
                 'colorName' => 'red',
+                'created_at' => '2023-02-07',
             ],
         ];
     }

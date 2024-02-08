@@ -70,10 +70,18 @@ class AppFixtures extends Fixture
             $bookingObject->setEndAt(new DateTime($booking['end_at']));
             $bookingObject->setCreatedAt(new DateTimeImmutable($today));
 
+            // Association aléatoire avec employee 
+            $employeeRepository = $manager->getRepository(Employee::class);
+            $employeeList = $employeeRepository->findAll();
+            $employeeRandom = mt_rand(0, count($employeeList) -1);
+            $currentEmployeeId = $employeeList[$employeeRandom];
+            $bookingObject->setEmployee($currentEmployeeId);
+
             $manager->persist($bookingObject);
         }
 
         $manager->flush();
+
 
     }
 
